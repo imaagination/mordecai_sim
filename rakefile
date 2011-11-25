@@ -1,0 +1,5 @@
+task :default => [:build_sim]
+
+task :build_sim do
+  javac -cp .:stdlib.jar Simulator.java
+end
