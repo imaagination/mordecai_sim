@@ -2,7 +2,7 @@ import Jama.*;
 
 public class World {
   
-	private final double TIME_STEP = 0.1;
+	private final double TIME_STEP = 1.0;
 
 	private Integrator system;
 	private Matrix state;
@@ -18,6 +18,40 @@ public class World {
 
 		double[] initCond = {20.0, 20.0, 0.0, 0.0};
 		state = new Matrix(initCond, 4);
+	}
+
+	public World(String filename) {
+		// Read from file
+		StdOut.println("Reading simulated world from " + filename);
+		In specFile = new In(filename);
+		specFile.readLine();
+		int stateDim = specFile.readInt();
+		StdOut.println("State dimension: " + stateDim);
+		specFile.readLine();
+		specFile.readLine();
+		specFile.readLine();
+		Matrix initCond = new Matrix(stateDim, 1);
+		for (int i = 0; i < stateDim; i++) {
+			StdOut.println(i);
+			initCond.set(i, 0, specFile.readDouble());
+		}
+		StdOut.println("Initial conditions: ");
+		initCond.print(2, 1);
+		specFile.readLine();
+		specFile.readLine();
+		specFile.readLine();
+		Matrix sys = new Matrix(stateDim, stateDim);
+		for (int i = 0; i < stateDim; i++) {
+      for (int j = 0; j < stateDim; j++) {
+				sys.set(i, j, specFile.readDouble());
+			}
+		}
+		StdOut.println("Linear system: ");
+		sys.print(2, 1);
+
+		// Initialize world
+		system = new EulerIntegrator(sys, TIME_STEP);
+		state = initCond;
 	}
 
 	public Matrix step() {
