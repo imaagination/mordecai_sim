@@ -12,4 +12,7 @@ interface Integrator {
 	// Returns a vector representing the state at t + dt
 	Matrix integrate(Matrix s, double dt);
 
+	// Set time step of integrator
+	void setTimeStep(double dt);
+
 }

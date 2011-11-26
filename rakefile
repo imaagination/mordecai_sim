@@ -1,5 +1,9 @@
 task :default => [:build_sim]
 
 task :build_sim do
-  javac -cp .:stdlib.jar Simulator.java
+  system('javac -cp .:stdlib.jar:Jama-1.0.2.jar Simulator.java');
+end
+
+task :run_sim do
+  system('java -cp .:stdlib.jar:Jama-1.0.2.jar Simulator');
 end

@@ -11,6 +11,15 @@ public class EulerIntegrator implements Integrator {
 		trans = new Matrix(linSystem, 2);
 	}
 
+	public EulerIntegrator(Matrix linSystem, double dt) {
+    trans = linSystem.copy();
+		this.dt = dt;
+	}
+
+	public void setTimeStep(double dt) {
+		this.dt = dt;
+	}
+
 	public Matrix integrate(Matrix s) {
     return integrate(s, this.dt);
   }
