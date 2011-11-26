@@ -21,7 +21,8 @@ public class EulerIntegrator implements Integrator {
 	}
 
 	public Matrix integrate(Matrix s) {
-    return integrate(s, this.dt);
+		Matrix newState = integrate(s, this.dt);
+		return newState;
   }
 
 	// Advances the state by time by repeatedly advancing dt

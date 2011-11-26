@@ -1,9 +1,20 @@
-task :default => [:build_sim]
+task :default => ["Simulator.class"]
 
-task :build_sim do
-  system('javac -cp .:stdlib.jar:Jama-1.0.2.jar Simulator.java');
+def echo_shell s
+  puts s
+	exec s
+end
+
+rule '.class' => '.java' do |t|
+  echo_shell "javac -cp .:stdlib.jar:Jama-1.0.2.jar #{t.source}"
+end
+
+task :clean do
+  echo_shell "rm *.class"
 end
 
 task :run_sim do
-  system('java -cp .:stdlib.jar:Jama-1.0.2.jar Simulator');
+  echo_shell 'java -cp .:stdlib.jar:Jama-1.0.2.jar Simulator'
 end
+
+

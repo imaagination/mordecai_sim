@@ -1,3 +1,5 @@
+import Jama.*;
+
 public class World {
   
 	private final double TIME_STEP = 0.1;
@@ -7,18 +9,21 @@ public class World {
 
 	public World() {
 		// This is a [x_dot, y_dot, x, y] system with dt = 0.1
-		double[] linSystem = {1.0, 0.0, 0.0, 0.0,
-												  0.0, 1.0, 0.0, 0.0,
-													0.1, 0.0, 1.0, 0.0,
-													0.0, 0.1, 0.0, 1.0};
+		double[] linSystem = {1.0, 0.0, 0.1, 0.0,
+												  0.0, 1.0, 0.0, 0.1,
+													0.0, 0.0, 1.0, 0.0,
+													0.0, 0.0, 0.0, 1.0};
 		Matrix sys = new Matrix(linSystem, 4);
 		system = new EulerIntegrator(sys, TIME_STEP);
 
 		double[] initCond = {20.0, 20.0, 0.0, 0.0};
+		state = new Matrix(initCond, 4);
 	}
 
 	public Matrix step() {
-		state = system.integrate(state);
+		Matrix newState = system.integrate(state);
+		state = newState;
+	  return state;
 	}
 
 }
