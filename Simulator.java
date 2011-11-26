@@ -2,7 +2,7 @@ import Jama.*;
 
 public class Simulator {
   public static void main (String[] argv) {
-		Renderer rend = new CarRenderer();
+		Renderer rend = new GravityRenderer();
 		World world = new World("CarWorld.wld");
 		while(true) {
 			Matrix curState = world.step();

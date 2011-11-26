@@ -2,7 +2,7 @@ import Jama.*;
 
 public class World {
   
-	private final double TIME_STEP = 1.0;
+	private final double TIME_STEP = 0.1;
 
 	private Integrator system;
 	private Matrix state;
@@ -32,7 +32,6 @@ public class World {
 		specFile.readLine();
 		Matrix initCond = new Matrix(stateDim, 1);
 		for (int i = 0; i < stateDim; i++) {
-			StdOut.println(i);
 			initCond.set(i, 0, specFile.readDouble());
 		}
 		StdOut.println("Initial conditions: ");
