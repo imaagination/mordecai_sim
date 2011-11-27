@@ -3,6 +3,7 @@ import Jama.*;
 public class Simulator {
   private Renderer rend;
 	private World world;
+	private Agent agent;
 	private double timeStep;
 
 	public void read(String filename) {
@@ -52,9 +53,11 @@ public class Simulator {
 		// Initialize instance variables
 		rend = new GravityRenderer();
 		world = new World(timeStep, initCond, initControl, sys, controlSys);
+		agent = new Agent();
 	}
 
 	public void advance() {
+		world.applyControl(agent.getControls());
 		Matrix curState = world.step();
 		rend.update(curState);
 	}
