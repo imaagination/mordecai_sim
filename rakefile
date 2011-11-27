@@ -14,7 +14,7 @@ task :clean do
 end
 
 task :run_sim do
-  echo_shell 'java -cp .:stdlib.jar:Jama-1.0.2.jar Simulator'
+  echo_shell 'java -cp .:stdlib.jar:Jama-1.0.2.jar Simulator CarWorld.wld'
 end
 
 
