@@ -50,6 +50,8 @@ public class Simulator {
 		sys.print(2, 1);
 
 		// Initialize instance variables
+		rend = new GravityRenderer();
+		world = new World(timeStep, initCond, initControl, sys, controlSys);
 	}
 
 	public void advance() {
@@ -57,12 +59,15 @@ public class Simulator {
 		rend.update(curState);
 	}
 
+	public double getTimeStep() {
+		return timeStep;
+	}
   public static void main (String[] argv) {
 		Simulator sim = new Simulator();
 		sim.read(argv[0]);
 		while(true) {
 			sim.advance();
-			try { Thread.sleep(100); } catch(Exception e) {}
+			try { Thread.sleep((int)(1000 * sim.getTimeStep())); } catch(Exception e) {}
 		}
 	}
 }
