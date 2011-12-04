@@ -3,8 +3,8 @@ import Jama.*;
 public class GravityRenderer implements Renderer {
 
 	private final double CAR_SIZE = 10;
-  private final double WIDTH = 1000;
-	private final double HEIGHT = 800;
+  private final double WIDTH = 512;
+	private final double HEIGHT = 512;
 
   public GravityRenderer() {
 	  	StdDraw.setCanvasSize((int)WIDTH, (int)HEIGHT);

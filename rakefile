@@ -17,4 +17,7 @@ task :run_sim do
   echo_shell 'java -cp .:stdlib.jar:Jama-1.0.2.jar Simulator CarWorld.wld'
 end
 
+task :run_sim_key do
+  echo_shell 'java -cp .:stdlib.jar:Jama-1.0.2.jar Simulator KeyGravity.wld'
+end
 

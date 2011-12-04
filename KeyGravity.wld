@@ -1,0 +1,26 @@
+# Time step
+0.01
+
+# State dimension
+4
+
+# Control dimension
+4
+
+# Initial conditions
+0.0 0.0 0.0 0.0
+
+# Initial controls
+0.0 0.0 0.0 0.0
+
+# Linear system
+1.0 0.0 0.0 0.0
+0.0 1.0 0.0 0.0
+0.1 0.0 1.0 0.0
+0.0 0.1 0.0 1.0
+
+# Control system
+ 0.0  0.1  0.0 -0.1
+ 0.1  0.0 -0.1  0.0
+ 0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0

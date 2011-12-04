@@ -44,11 +44,13 @@ public class Simulator {
 		Matrix controlSys = new Matrix(stateDim, controlDim);
 		for (int i = 0; i < stateDim; i++) {
 			for (int j = 0; j < controlDim; j++) {
-				controlSys.set(i, j, specFile.readDouble());
+				double item = specFile.readDouble();
+				StdOut.println("(" + i + ", " + j + ") : " + item);
+				controlSys.set(i, j, item);
 			} 
 		} 
 		StdOut.println("Control model: ");
-		sys.print(2, 1);
+		controlSys.print(2, 1);
 
 		// Initialize instance variables
 		rend = new GravityRenderer();
@@ -57,7 +59,8 @@ public class Simulator {
 	}
 
 	public void advance() {
-		world.applyControl(agent.getControls());
+		Matrix newControls = agent.getControls();
+		world.applyControl(newControls);
 		Matrix curState = world.step();
 		rend.update(curState);
 	}
