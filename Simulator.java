@@ -62,9 +62,11 @@ public class Simulator {
 	}
 
 	public void advance() {
+		Matrix curState = world.getState();
+		agent.observeState(curState);
 		Matrix newControls = agent.getControls();
 		world.applyControl(newControls);
-		Matrix curState = world.step();
+		curState = world.step();
 		rend.update(curState);
 	}
 

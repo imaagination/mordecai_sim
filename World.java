@@ -26,4 +26,8 @@ public class World {
 	  return state;
 	}
 
+	public Matrix getState() {
+		return state;
+	}
+
 }
