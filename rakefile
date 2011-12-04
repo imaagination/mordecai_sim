@@ -13,11 +13,18 @@ task :clean do
   echo_shell "rm *.class"
 end
 
-task :run_sim do
-  echo_shell 'java -cp .:stdlib.jar:Jama-1.0.2.jar Simulator CarWorld.wld'
+namespace "run_sim" do
+	task :gravity_wld do
+		echo_shell 'java -cp .:stdlib.jar:Jama-1.0.2.jar Simulator CarWorld.wld'
+	end
+
+	task :key_wld do
+		echo_shell 'java -cp .:stdlib.jar:Jama-1.0.2.jar Simulator KeyGravity.wld'
+	end
+
+	task :mouse_follower_wld do
+		echo_shell 'java -cp .:stdlib.jar:Jama-1.0.2.jar Simulator MouseFollower.wld'
+	end
 end
 
-task :run_sim_key do
-  echo_shell 'java -cp .:stdlib.jar:Jama-1.0.2.jar Simulator KeyGravity.wld'
-end
 

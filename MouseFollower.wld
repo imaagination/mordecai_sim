@@ -1,0 +1,29 @@
+# Time step
+0.01
+
+# State dimension
+4
+
+# Control dimension
+2
+
+# Initial conditions
+0.0 0.0 0.0 0.0
+
+# Initial controls
+0.0 0.0
+
+# Linear system
+1.0 0.0 0.0 0.0
+0.0 1.0 0.0 0.0
+0.1 0.0 1.0 0.0
+0.0 0.1 0.0 1.0
+
+# Physical controller
+MouseController
+
+# Control system
+ 0.001  0.0
+ 0.0  0.001
+ 0.0  0.0
+ 0.0  0.0

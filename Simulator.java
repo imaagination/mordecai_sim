@@ -41,11 +41,14 @@ public class Simulator {
 		StdOut.println("Linear system: ");
 		sys.print(2, 1);
 		for (int i = 0; i < 3; i++) specFile.readLine();
+		String controllerName = specFile.readString();
+		StdOut.println("Controller: ");
+		StdOut.println(controllerName);
+		for (int i = 0; i < 3; i++) specFile.readLine();
 		Matrix controlSys = new Matrix(stateDim, controlDim);
 		for (int i = 0; i < stateDim; i++) {
 			for (int j = 0; j < controlDim; j++) {
 				double item = specFile.readDouble();
-				StdOut.println("(" + i + ", " + j + ") : " + item);
 				controlSys.set(i, j, item);
 			} 
 		} 
@@ -55,7 +58,7 @@ public class Simulator {
 		// Initialize instance variables
 		rend = new GravityRenderer();
 		world = new World(timeStep, initCond, initControl, sys, controlSys);
-		agent = new Agent();
+		agent = new Agent(controllerName);
 	}
 
 	public void advance() {
