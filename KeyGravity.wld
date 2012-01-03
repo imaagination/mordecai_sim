@@ -19,6 +19,9 @@
 0.1 0.0 1.0 0.0
 0.0 0.1 0.0 1.0
 
+#Physical controller
+KeyController
+
 # Control system
  0.0  0.1  0.0 -0.1
  0.1  0.0 -0.1  0.0

@@ -6,59 +6,73 @@ public class Simulator {
 	private Agent agent;
 	private double timeStep;
 
+	private Matrix readMat(int h, int w, In stream) {
+		Matrix r = new Matrix(h, w);
+		for (int i = 0; i < h; i++) 
+			for (int j = 0; j < w; j++)
+				r.set(i, j, stream.readDouble());
+		
+		return r;
+	}
+
 	public void read(String filename) {
+		// Spec variables
+		int stateDim = 0;
+		int controlDim = 0;
+		Matrix initCond = null;
+		Matrix initControl = null;
+		Matrix linSystem = null;
+		Matrix contSystem = null;
+		String physController = "";
+
     In specFile = new In(filename);
-		specFile.readLine();
-		timeStep = specFile.readDouble();
-		StdOut.println("Time step: " + timeStep);
-		for (int i = 0; i < 3; i++) specFile.readLine();
-		int stateDim = specFile.readInt();
-		StdOut.println("State dimension: " + stateDim);
-		for (int i = 0; i < 3; i++) specFile.readLine();
-		int controlDim = specFile.readInt();
-		StdOut.println("Control dimension: " + controlDim);
-		for (int i = 0; i < 3; i++) specFile.readLine();
-		Matrix initCond = new Matrix(stateDim, 1);
-		for (int i = 0; i < stateDim; i++) {
-			initCond.set(i, 0, specFile.readDouble());
-		} 
-		StdOut.println("Initial conditions: ");
-		initCond.print(2, 1);
-		for (int i = 0; i < 3; i++) specFile.readLine();
-		Matrix initControl = new Matrix(controlDim, 1);
-		for (int i = 0; i < controlDim; i++) {
-			initControl.set(i, 0, specFile.readDouble());
-		} 
-		StdOut.println("Initial controls: ");
-		initControl.print(2, 1);
-		for (int i = 0; i < 3; i++) specFile.readLine();
-		Matrix sys = new Matrix(stateDim, stateDim);
-		for (int i = 0; i < stateDim; i++) {
-			for (int j = 0; j < stateDim; j++) {
-				sys.set(i, j, specFile.readDouble());
-			} 
-		} 
-		StdOut.println("Linear system: ");
-		sys.print(2, 1);
-		for (int i = 0; i < 3; i++) specFile.readLine();
-		String controllerName = specFile.readString();
-		StdOut.println("Controller: ");
-		StdOut.println(controllerName);
-		for (int i = 0; i < 3; i++) specFile.readLine();
-		Matrix controlSys = new Matrix(stateDim, controlDim);
-		for (int i = 0; i < stateDim; i++) {
-			for (int j = 0; j < controlDim; j++) {
-				double item = specFile.readDouble();
-				controlSys.set(i, j, item);
-			} 
-		} 
-		StdOut.println("Control model: ");
-		controlSys.print(2, 1);
+		String curLine;
+		while ((curLine = specFile.readLine()) != null) {
+			// Clean line
+			// curLine.gsub(" ", "");
+			
+			if (curLine.equals("time_step")) {
+				timeStep = specFile.readDouble();
+				StdOut.println("Time step: " + timeStep);
+			}
+			else if (curLine.equals("state_dimension")) {
+				stateDim = specFile.readInt();
+				StdOut.println("State dimension: " + stateDim);
+			}
+			else if (curLine.equals("control_dimension")) {
+				controlDim = specFile.readInt();
+				StdOut.println("Control dimension: " + controlDim);
+			}
+			else if (curLine.equals("initial_conditions")) {
+				initCond = readMat(stateDim, 1, specFile);
+				StdOut.println("Initial conditions:");
+				initCond.print(2, 1);
+			}
+			else if (curLine.equals("initial_controls")) {
+				initControl = readMat(controlDim, 1, specFile);
+				StdOut.println("Initial controls:");
+				initCond.print(2, 1);
+			}
+			else if (curLine.equals("linear_system")) {
+				linSystem = readMat(stateDim, stateDim, specFile);
+				StdOut.println("Linear system:");
+				linSystem.print(2, 1);	
+			}
+			else if (curLine.equals("physical_controller")) {
+				physController = specFile.readLine();
+				StdOut.println("Physical controller: " + physController);
+			}
+			else if (curLine.equals("control_system")) {
+				contSystem = readMat(stateDim, controlDim, specFile);
+				StdOut.println("Control system:");
+				contSystem.print(2, 1);
+			}
+		}
 
 		// Initialize instance variables
 		rend = new GravityRenderer();
-		world = new World(timeStep, initCond, initControl, sys, controlSys);
-		agent = new Agent(controllerName);
+		world = new World(timeStep, initCond, initControl, linSystem, contSystem);
+		agent = new Agent(physController);
 	}
 
 	public void advance() {
