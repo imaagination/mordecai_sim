@@ -15,6 +15,15 @@ public class Simulator {
 		return r;
 	}
 
+	private Renderer readRend(In stream) {
+		String line = stream.readLine();
+		// ** CAN I USE REFLECTION HERE TO SPECIFY THE TYPE OF RENDERER? **
+		if (line.equals("GravityRenderer")) {
+			return new GravityRenderer();
+		}
+		return null;
+	}
+
 	public void read(String filename) {
 		// Spec variables
 		int stateDim = 0;
@@ -67,10 +76,12 @@ public class Simulator {
 				StdOut.println("Control system:");
 				contSystem.print(2, 1);
 			}
+			else if (curLine.equals("renderer")) {
+				rend = readRend(specFile);
+			}
 		}
 
 		// Initialize instance variables
-		rend = new GravityRenderer();
 		world = new World(timeStep, initCond, initControl, linSystem, contSystem);
 		agent = new Agent(physController);
 	}
