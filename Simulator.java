@@ -4,6 +4,7 @@ public class Simulator {
   private Renderer rend;
 	private World world;
 	private Agent agent;
+	private Recorder recorder = null;
 	private double timeStep;
 
 	private Matrix readMat(int h, int w, In stream) {
@@ -33,6 +34,7 @@ public class Simulator {
 		Matrix linSystem = null;
 		Matrix contSystem = null;
 		String physController = "";
+		String trajectoryFile = "";
 
     In specFile = new In(filename);
 		String curLine;
@@ -79,15 +81,23 @@ public class Simulator {
 			else if (curLine.equals("renderer")) {
 				rend = readRend(specFile);
 			}
+			else if (curLine.equals("trajectory_file")) {
+				trajectoryFile = specFile.readLine();
+			}	
 		}
 
 		// Initialize instance variables
 		world = new World(timeStep, initCond, initControl, linSystem, contSystem);
 		agent = new Agent(physController);
+		if (!trajectoryFile.equals("")) recorder = new Recorder(trajectoryFile);
 	}
 
 	public void advance() {
 		Matrix curState = world.getState();
+
+		// If trajectory recording is enabled, do so
+		if (recorder != null) recorder.recordState(curState);
+
 		agent.observeState(curState);
 		Matrix newControls = agent.getControls();
 		world.applyControl(newControls);
