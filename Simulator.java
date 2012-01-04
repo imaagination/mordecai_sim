@@ -16,15 +16,6 @@ public class Simulator {
 		return r;
 	}
 
-	private Renderer readRend(In stream) {
-		String line = stream.readLine();
-		// ** CAN I USE REFLECTION HERE TO SPECIFY THE TYPE OF RENDERER? **
-		if (line.equals("GravityRenderer")) {
-			return new GravityRenderer();
-		}
-		return null;
-	}
-
 	public void read(String filename) {
 		// Spec variables
 		int stateDim = 0;
@@ -39,8 +30,6 @@ public class Simulator {
     In specFile = new In(filename);
 		String curLine;
 		while ((curLine = specFile.readLine()) != null) {
-			// Clean line
-			// curLine.gsub(" ", "");
 			
 			if (curLine.equals("time_step")) {
 				timeStep = specFile.readDouble();
@@ -79,7 +68,7 @@ public class Simulator {
 				contSystem.print(2, 1);
 			}
 			else if (curLine.equals("renderer")) {
-				rend = readRend(specFile);
+				rend = RendererFactory.getRenderer(specFile.readLine());
 			}
 			else if (curLine.equals("trajectory_file")) {
 				trajectoryFile = specFile.readLine();
