@@ -1,5 +1,7 @@
 task :default => ["Simulator.class"]
 
+task :player => ["Player.class"]
+
 def echo_shell s
   puts s
 	exec s
@@ -17,3 +19,6 @@ task :run_sim, [:wld_file] do |t, args|
 		echo_shell "java -cp .:stdlib.jar:Jama-1.0.2.jar Simulator #{args.wld_file}"
 end
 
+task :play, [:trj_file, :renderer, :time_step] do |t, args|
+		echo_shell "java -cp .:stdlib.jar:Jama-1.0.2.jar Player #{args.trj_file} #{args.renderer} #{args.time_step}"
+end
